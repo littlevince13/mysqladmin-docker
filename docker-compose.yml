@@ -1,0 +1,35 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8
+    container_name: test-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+    networks:
+      - net-mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: test-phpmyadmin
+    ports:
+      - "7777:80"
+    environment:
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "root"
+      PMA_HOST: test-mysql
+    networks:
+      - net-mysql
+
+networks:
+  net-mysql:
+
+volumes:
+  mysql-data:
